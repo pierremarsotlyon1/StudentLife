@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>501059027724-suu0nao0si1c0589sh8brt0t9shuc9ba.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.501059027724-suu0nao0si1c0589sh8brt0t9shuc9ba</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC389jhxYI-TgqrQ5EgLnC47eFa7XpQtuQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>501059027724</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.StudentLife.Lyon</string>
+	<key>PROJECT_ID</key>
+	<string>studentlife-6b30c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>studentlife-6b30c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:501059027724:ios:e72b0220eb9b0f15</string>
+	<key>DATABASE_URL</key>
+	<string>https://studentlife-6b30c.firebaseio.com</string>
+</dict>
+</plist>
