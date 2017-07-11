@@ -2,15 +2,15 @@
  * Created by pierremarsot on 23/06/2017.
  */
 import Toast from 'react-native-simple-toast';
+import {post, put} from '../tools/Api';
+import {ID_TOKEN, setLocalStorage, getToken, deleteLocalStorage} from '../tools/localStorage';
+
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const SET_TOKEN = 'SET_TOKEN';
 export const LOGOUT = 'LOGOUT';
-
-import {post, put} from '../tools/Api';
-import {ID_TOKEN, setLocalStorage, getToken, deleteLocalStorage} from '../tools/localStorage';
 
 export function setFcmToken(fcmToken) {
   return new Promise((resolve, reject) => {
@@ -96,7 +96,7 @@ export function login(email, password) {
               return dispatch(loginError());
             });
         }
-        else{
+        else {
           return dispatch(loginError());
         }
       })
@@ -112,7 +112,7 @@ export function login(email, password) {
 
 function registerSuccess(token) {
   return {
-    typ: REGISTER_SUCCESS,
+    type: REGISTER_SUCCESS,
     token: token,
   };
 }

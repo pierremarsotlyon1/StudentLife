@@ -21,7 +21,6 @@ export function getToken() {
 }
 
 export function setLocalStorage(key, value) {
-
   return new Promise((resolve, reject) => {
     try {
 
