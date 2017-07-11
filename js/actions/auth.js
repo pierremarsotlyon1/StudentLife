@@ -4,6 +4,7 @@
 import Toast from 'react-native-simple-toast';
 import {post, put} from '../tools/Api';
 import {ID_TOKEN, setLocalStorage, getToken, deleteLocalStorage} from '../tools/localStorage';
+const validator = require('validator');
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -80,6 +81,12 @@ export function login(email, password) {
       return false;
     }
 
+    //On regarde si l'email est un email valide
+    if(!validator.isEmail(email)){
+      Toast.show('Votre email n\'est pas valide');
+      return false;
+    }
+
     post('/login', {
       email: email,
       password: password,
@@ -152,6 +159,12 @@ export function register(nom, prenom, email, password, confirmPassword) {
 
     if (password !== confirmPassword) {
       Toast.show('Les mots de passe ne sont pas identique.');
+      return false;
+    }
+
+    //On regarde si l'email est un email valide
+    if(!validator.isEmail(email)){
+      Toast.show('Votre email n\'est pas valide');
       return false;
     }
 

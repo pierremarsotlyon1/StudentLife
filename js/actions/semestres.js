@@ -3,6 +3,7 @@
  */
 import {get, post, put, remove} from '../tools/Api';
 import Toast from 'react-native-simple-toast';
+const validator = require('validator');
 
 export const LOAD_SEMESTRES_SUCCESS = 'LOAD_SEMESTRES_SUCCESS';
 export const ADD_SEMESTRE_SUCCESS = 'ADD_SEMESTRE_SUCCESS';
@@ -62,6 +63,12 @@ export function addSemestre(nom, url, courant) {
       return dispatch(addSemestreError());
     }
 
+    //On regarde si l'url est une url valide
+    if(!validator.isURL(url)){
+      Toast.show('L\'url n\'est pas valide');
+      return false;
+    }
+
     post('/api/etudiant/semestres', {
       name: nom,
       url: url,
@@ -111,6 +118,12 @@ export function updateSemestre(id, nom, url, courant) {
     if (!url || url.length === 0) {
       Toast.show('Vous devez spécifier l\'url du flux rss (cf tomuss).');
       return dispatch(updateSemestreError());
+    }
+
+    //On regarde si l'url est une url valide
+    if(!validator.isURL(url)){
+      Toast.show('L\'url n\'est pas valide');
+      return false;
     }
 
     //On récup le semestre

@@ -12,7 +12,7 @@ import {updateSemestre, removeSemestre} from '../../actions/semestres';
 
 class UpdateSemestre extends React.Component {
   static navigationOptions = {
-    title: 'Modifier un semestre',
+    title: 'Semestre',
   };
 
   constructor(props){

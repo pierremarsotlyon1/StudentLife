@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Container, Content, Text, Button, Icon, Card, CardItem, Body, Badge} from 'native-base';
+import {Container, Content, Text, Button, Icon, Card, CardItem, Body, Badge, Left, Right, ListItem, Separator} from 'native-base';
 import moment from 'moment';
 
 import Margin from '../../styles/Margin';
@@ -75,23 +75,34 @@ class Semestre extends React.Component {
       let keyUe = 0;
 
       if (ues && ues.length > 0) {
+        let keyIndexNotes = 0;
         for (const ue of ues) {
           let notesBadge = [];
-          let keyIndexNotes = 0;
 
           if (ue.notes && ue.notes.length > 0) {
             ue.notes.sort((a, b) => {
-              return moment(a.created).isSameOrBefore(b.created) ? 1 : -1;
+              return moment(a.created).isSameOrBefore(b.created) ? -1 : 1;
             });
 
             for (const note of ue.notes) {
               notesBadge.push(
-                <Badge primary key={"keyBadge_" + keyIndexNotes} style={{
-                  flexDirection: 'row'
-                }}>
-                  <Text>{note.note} / {note.denominateur}</Text>
-                </Badge>
+                <ListItem key={"keyBadge_" + keyIndexNotes} >
+                  <Left>
+                    <Text>{note.name}</Text>
+                  </Left>
+                  <Right>
+                    <Text>{note.note} / {note.denominateur}</Text>
+                  </Right>
+                </ListItem>
               );
+
+              /* notesBadge.push(
+               <Badge primary key={"keyBadge_" + keyIndexNotes} style={{
+               flexDirection: 'row'
+               }}>
+               <Text>{note.note} / {note.denominateur}</Text>
+               </Badge>
+               );*/
               keyIndexNotes++;
             }
           }
@@ -101,23 +112,18 @@ class Semestre extends React.Component {
           }
 
           uesCard.push(
-            <Card key={"keyUe_" + keyUe}>
-              <CardItem header>
-                <Text>{ue.name}</Text>
-              </CardItem>
-              <CardItem>
-                <Body style={{flex: 1}}>
-                  {notesBadge}
-                </Body>
-              </CardItem>
-            </Card>
+            <Separator bordered key={"separator" + ue.name}>
+              <Text>{ue.name}</Text>
+            </Separator>
           );
+
+          uesCard = uesCard.concat(notesBadge);
           keyUe++;
         }
       }
     }
 
-    if(uesCard.length === 0){
+    if (uesCard.length === 0) {
       uesCard.push(
         <Text key="empty_notes" style={Object.assign({}, Margin.m25, TextStyle.center)}>
           Vous n'avez pas encore de note dans ce semestre
