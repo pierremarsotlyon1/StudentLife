@@ -26,12 +26,12 @@ import moment from 'moment';
 
 class SemestreList extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: 'Mes semestres',
+    title: 'Semestres',
     headerRight: <Button
       transparent
       onPress={() => navigation.navigate("AddSemestre")}
     >
-      <Icon name='add'/>
+      <Icon name='md-add'/>
     </Button>
   });
 

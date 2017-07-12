@@ -19,14 +19,7 @@ class Semestre extends React.Component {
         id: navigation.state.params.id,
       })}
     >
-      <Icon name='settings'/>
-    </Button>,
-    headerLeft: <Button
-      transparent
-      onPress={() => navigation.goBack()}
-    >
-      <Icon name='ios-arrow-back'/>
-      <Text>Semetres</Text>
+      <Icon name='md-settings'/>
     </Button>
   });
 

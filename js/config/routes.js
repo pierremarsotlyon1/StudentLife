@@ -8,11 +8,15 @@ import Semestre from '../components/semestre/Semestre';
 import Settings from '../components/settings/Settings';
 import ChangePassword from '../components/settings/ChangePassword';
 import PersonalInformations from '../components/settings/PersonalInformations';
-import CustomIcon from '../components/CustomIcon';
+import {Icon} from 'native-base';
+import BonPlans from '../components/bonplans/BonPlans';
 
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
 
 const TabNavigatorAccount = TabNavigator({
+  BonPlans: {
+    screen: BonPlans,
+  },
   SemestreListTab: {
     screen: StackNavigator({
       SemestreList: {screen: SemestreList},
@@ -23,8 +27,8 @@ const TabNavigatorAccount = TabNavigator({
       initialRouteName: 'SemestreList',
       navigationOptions : {
         tabBarIcon: () => (
-          <CustomIcon icon='md-clipboard'/>
-        ),
+          <Icon name="md-clipboard" />
+        )
       }
     })
   },
@@ -37,7 +41,7 @@ const TabNavigatorAccount = TabNavigator({
       initialRouteName: 'Settings',
       navigationOptions : {
         tabBarIcon: () => (
-          <CustomIcon icon='md-settings'/>
+          <Icon name="md-settings" />
         ),
       }
     })
@@ -45,6 +49,7 @@ const TabNavigatorAccount = TabNavigator({
 }, {
   tabBarOptions: {
     showLabel: false,
+    showIcon: true,
   },
 });
 

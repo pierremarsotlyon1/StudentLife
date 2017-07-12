@@ -4,11 +4,13 @@
 import {combineReducers} from "redux";
 import auth from "./auth";
 import semestre from "./semestre";
+import bonPlans from './bonplans';
 
 export default function getRootReducer(navReducer) {
   return combineReducers({
     nav: navReducer,
     auth: auth,
     semestre: semestre,
+    bonPlans: bonPlans,
   });
 }
