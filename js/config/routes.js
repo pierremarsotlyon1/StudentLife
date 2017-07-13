@@ -10,6 +10,8 @@ import ChangePassword from '../components/settings/ChangePassword';
 import PersonalInformations from '../components/settings/PersonalInformations';
 import {Icon} from 'native-base';
 import BonPlans from '../components/bonplans/BonPlans';
+import Calendar from '../components/calendar/Calendar';
+import CalendarSettings from '../components/calendar/CalendarSettings';
 
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
 
@@ -29,6 +31,21 @@ const TabNavigatorAccount = TabNavigator({
         tabBarIcon: () => (
           <Icon name="md-clipboard" />
         )
+      }
+    })
+  },
+  CalendarTab: {
+    screen: StackNavigator({
+      Calendar: {screen: Calendar},
+      CalendarSettings: {
+        screen: CalendarSettings,
+      }
+    }, {
+      initialRouteName: 'Calendar',
+      navigationOptions : {
+        tabBarIcon: () => (
+          <Icon name="md-calendar" />
+        ),
       }
     })
   },
