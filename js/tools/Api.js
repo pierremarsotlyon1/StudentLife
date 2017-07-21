@@ -3,7 +3,7 @@
  */
 import {getLocalStorage, ID_TOKEN} from './localStorage';
 
-const urlServer = process.env.NODE_ENV === 'production' ? 'https://valeriemoroseau.com' : 'https://valeriemoroseau.com';//'http://localhost:1330';
+const urlServer = process.env.NODE_ENV === 'production' ? 'https://valeriemoroseau.com' : 'http://localhost:1330';
 
 export function get(url, query = {}) {
 

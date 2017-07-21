@@ -67,10 +67,15 @@ class CalendarSettings extends React.Component {
             onPress={() => this.refreshCalendar()}
           >
             <Left>
-              <Icon name="md-log-out"/>
+              <Icon name="md-cloud-upload"/>
             </Left>
             <Body>
-            <Text>Mettre à jour mon calendrier</Text>
+            <Text>
+              Mettre à jour sur le serveur
+            </Text>
+            <Text note>
+              A faire en cas de changement d'emploi du temps
+            </Text>
             </Body>
             <Right/>
           </ListItem>
@@ -80,10 +85,15 @@ class CalendarSettings extends React.Component {
             onPress={() => this.downloadCalendar()}
           >
             <Left>
-              <Icon name="md-log-out"/>
+              <Icon name="md-cloud-download"/>
             </Left>
             <Body>
-            <Text>Télécharger mon calendrier</Text>
+            <Text>
+              Mettre à jour sur le téléphone
+            </Text>
+            <Text note>
+              Pour récupérer votre agenda à partir du serveur
+            </Text>
             </Body>
             <Right/>
           </ListItem>
