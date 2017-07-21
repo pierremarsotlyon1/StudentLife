@@ -68,17 +68,14 @@ class SemestreList extends React.Component {
       }
       semestresLocales.push(
         <ListItem
-          avatar
           key={semestre.url}
           button
           onPress={() => this.redirectSemestre(semestre.id)}
         >
           <Left>
             {left}
+            <Text>{semestre.name}</Text>
           </Left>
-          <Body>
-          <Text>{semestre.name}</Text>
-          </Body>
           <Right>
             <Icon name="arrow-forward"/>
           </Right>

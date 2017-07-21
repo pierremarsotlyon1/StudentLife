@@ -8,18 +8,9 @@ import {
   LOGOUT
 } from '../actions/auth';
 
-import {
-  getToken
-} from '../tools/localStorage';
-
-let initialState = {
+const initialState = {
   token: '',
 };
-
-getToken()
-  .then((token) => {
-    initialState.token = token;
-  });
 
 export default function auth(state = initialState, action = {}){
   let token;

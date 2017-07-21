@@ -12,6 +12,7 @@ import {Icon} from 'native-base';
 import BonPlans from '../components/bonplans/BonPlans';
 import Calendar from '../components/calendar/Calendar';
 import CalendarSettings from '../components/calendar/CalendarSettings';
+import CalendarCamera from '../components/calendar/CalendarCamera';
 
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
 
@@ -39,6 +40,9 @@ const TabNavigatorAccount = TabNavigator({
       Calendar: {screen: Calendar},
       CalendarSettings: {
         screen: CalendarSettings,
+      },
+      CalendarCamera: {
+        screen: CalendarCamera,
       }
     }, {
       initialRouteName: 'Calendar',

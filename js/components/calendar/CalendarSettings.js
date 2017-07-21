@@ -2,86 +2,95 @@
  * Created by pierremarsot on 13/07/2017.
  */
 import React from 'react';
-import {Linking, Platform} from 'react-native';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import {Text, Spinner} from 'native-base';
-import Camera from 'react-native-camera';
-import Margin from '../../styles/Margin';
-import TextStyle from '../../styles/Text';
+import {connect} from 'react-redux';
+import {
+  Container,
+  Content,
+  Text,
+  Left,
+  Body,
+  Right,
+  Button,
+  Icon,
+  Title,
+  List,
+  ListItem,
+  Separator
+} from 'native-base';
+
+import {refreshEvents, loadEvents} from '../../actions/calendar';
 
 class CalendarSettings extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => ({
+    title: 'Configuration'
+  });
+
   constructor(props) {
     super(props);
-
-    this.state = {
-      message: '',
-      loading: true,
-      access: true,
-    };
   }
 
-  componentDidMount() {
-    if (Platform.OS === "ios") {
-      Camera.checkVideoAuthorizationStatus()
-        .then((access) => {
-          this.setState({
-            loading: false,
-            access: access,
-          });
-        })
-        .catch(() => {
-          this.setState({
-            loading: false,
-            access: false,
-          });
-        });
-    }
-    else {
-      this.setState({
-        loading: false,
-        access: true,
-      });
-    }
-  }
+  refreshCalendar = () => {
+    this.props.dispatch(refreshEvents());
+  };
 
-  handleRead = (e) => {
-    /*ical.fromURL(e.data, {}, function(err, data) {
-     for (var k in data){
-     if (data.hasOwnProperty(k)) {
-     var ev = data[k]
-     console.log("Conference",
-     ev.summary,
-     'is in',
-     ev.location,
-     'on the', ev.start.getDate(), 'of', months[ev.start.getMonth()]);
-     }
-     }
-     });*/
+  getUrlCalendar = () => {
+    this.props.navigation.navigate("CalendarCamera");
+  };
+
+  downloadCalendar = () => {
+    this.props.dispatch(loadEvents());
   };
 
   render() {
-    const {loading, access} = this.state;
-
-    let blockCamera;
-    if (loading) {
-      blockCamera = <Spinner color='blue'/>;
-    }
-    else {
-      if (access) {
-        blockCamera = <QRCodeScanner
-          onRead={this.handleRead}
-          bottomContent={<Text>{this.state.message}</Text>}
-        />;
-      }
-      else {
-        blockCamera =
-          <Text style={Object.assign({}, Margin.m25, TextStyle.center)}>Vous n'avez pas authorisé l'utilisation de la
-            caméra, merci de vérifier vos réglages.</Text>
-      }
-    }
-
-    return blockCamera;
+    return (
+      <Container>
+        <Content>
+          <Separator bordered>
+            <Text>Mon calendrier</Text>
+          </Separator>
+          <ListItem
+            icon
+            button
+            onPress={() => this.getUrlCalendar()}
+          >
+            <Left>
+              <Icon name="md-key"/>
+            </Left>
+            <Body>
+            <Text>Récupérer l'URL</Text>
+            </Body>
+            <Right/>
+          </ListItem>
+          <ListItem
+            icon
+            button
+            onPress={() => this.refreshCalendar()}
+          >
+            <Left>
+              <Icon name="md-log-out"/>
+            </Left>
+            <Body>
+            <Text>Mettre à jour mon calendrier</Text>
+            </Body>
+            <Right/>
+          </ListItem>
+          <ListItem
+            icon
+            button
+            onPress={() => this.downloadCalendar()}
+          >
+            <Left>
+              <Icon name="md-log-out"/>
+            </Left>
+            <Body>
+            <Text>Télécharger mon calendrier</Text>
+            </Body>
+            <Right/>
+          </ListItem>
+        </Content>
+      </Container>
+    )
   }
 }
 
-export default CalendarSettings;
+export default connect()(CalendarSettings);

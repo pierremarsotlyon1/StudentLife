@@ -38,7 +38,16 @@ class BonPlans extends React.Component {
 
     this.state = {
       offset: 0,
+      afficherBtnLoadMore: true,
     };
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < 10){
+      this.setState({
+        afficherBtnLoadMore: false,
+      });
+    }
   }
 
   componentDidMount() {
@@ -57,6 +66,7 @@ class BonPlans extends React.Component {
 
   render() {
     const {bonPlans, loading} = this.props;
+    const {afficherBtnLoadMore} = this.state;
     const bonPlansLocal = [];
 
     for (const bonPlan of bonPlans) {
@@ -103,7 +113,7 @@ class BonPlans extends React.Component {
       );
     }
 
-    if (bonPlansLocal.length > 0) {
+    if (bonPlansLocal.length > 9 && afficherBtnLoadMore) {
       bonPlansLocal.push(
         <Button
           block
@@ -120,7 +130,7 @@ class BonPlans extends React.Component {
       <Container>
         <Header>
           <Body>
-          <Title>Bon plans</Title>
+          <Title>Bons plans</Title>
           </Body>
         </Header>
         <Content>
