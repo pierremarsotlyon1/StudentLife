@@ -3,7 +3,7 @@
  */
 import Toast from 'react-native-simple-toast';
 import {get, put, post} from '../tools/Api';
-import {setLocalStorage} from '../tools/localStorage';
+import {setLocalStorage, getLocalStorage} from '../tools/localStorage';
 
 export const UPDATE_URL_ICS_SUCCESS = 'UPDATE_URL_ICS_SUCCESS';
 export const UPDATE_URL_ICS_ERROR = 'UPDATE_URL_ICS_ERROR';
@@ -14,7 +14,8 @@ export const LOAD_EVENTS_ERROR = 'LOAD_EVENTS_ERROR';
 export const REFRESH_EVENTS_SUCCESS = 'REFRESH_EVENTS_SUCCESS';
 export const REFRESH_EVENTS_ERROR = 'REFRESH_EVENTS_ERROR';
 
-export const LOCALSTORAGE_CALENDAR = 'LOCALSTORAGE_CALENDAR_LYON1_APP_TOMUSS';
+export const LOCALSTORAGE_URL_ICS_CALENDAR = 'LOCALSTORAGE_URL_ICS_CALENDAR_LYON1_APP_TOMUSS';
+export const LOCALSTORAGE_EVENTS_CALENDAR = 'LOCALSTORAGE_EVENTS_CALENDAR';
 
 function updateUrlIcsSuccess(urlIcs) {
   return {
@@ -41,7 +42,7 @@ export function updateUrlIcs(urlIcs) {
     })
       .then((response) => response.json())
       .then(() => {
-        setLocalStorage(LOCALSTORAGE_CALENDAR, urlIcs);
+        setLocalStorage(LOCALSTORAGE_URL_ICS_CALENDAR, urlIcs);
         Toast.show("L'url de votre calendrier a bien été sauvegardé sur notre serveur");
         return dispatch(updateUrlIcsSuccess(urlIcs));
       })
@@ -69,11 +70,25 @@ function loadEventsError() {
 
 export function loadEvents() {
   return dispatch => {
+    getLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR)
+      .then((events) => {
+        events = JSON.parse(events);
+        dispatch(loadEventsSuccess({
+          events: events,
+        }));
+      })
+      .catch(() => {
+
+      });
+
     get('/api/calendar/events')
       .then((response) => response.json())
       .then((response) => {
-        Toast.show("Votre calendrier a été téléchargé.");
-        console.log(response);
+        //Toast.show("Votre calendrier a été téléchargé.");
+        if (response) {
+          setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
+        }
+
         return dispatch(loadEventsSuccess(response));
       })
       .catch((response) => {

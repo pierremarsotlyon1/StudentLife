@@ -45,13 +45,11 @@ class CalendarCamera extends React.Component {
         access: true,
       });
     }
-
-    this.props.dispatch(updateUrlIcs("http://adelb.univ-lyon1.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=15501&projectId=1&calType=ical&firstDate=2017-11-06&lastDate=2017-11-12"));
   }
 
   handleRead = (e) => {
-    console.log(e.data);
     this.props.dispatch(updateUrlIcs(e.data));
+    this.props.navigation.navigate("CalendarSettings");
   };
 
   render() {
