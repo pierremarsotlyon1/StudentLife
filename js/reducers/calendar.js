@@ -20,7 +20,6 @@ const initialState = {
 export default function calendar(state = initialState, action = {}){
   switch(action.type){
     case LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR:
-      console.log('LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR : ', action);
       return {
         ...state,
         dateLastSynchro: action.dateLastSynchro,

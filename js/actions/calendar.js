@@ -34,7 +34,7 @@ function updateUrlIcsError() {
 export function updateUrlIcs(urlIcs) {
   return dispatch => {
     if (!urlIcs || urlIcs.length === 0) {
-      Toast.show("Erreur lors de la récupération de l'url de votre calendrier");
+      Toast.show("Erreur lors de la récupération de l'url de votre agenda");
       return dispatch(updateUrlIcsError());
     }
 
@@ -44,7 +44,7 @@ export function updateUrlIcs(urlIcs) {
       .then((response) => response.json())
       .then(() => {
         setLocalStorage(LOCALSTORAGE_URL_ICS_CALENDAR, urlIcs);
-        Toast.show("L'url de votre calendrier a bien été sauvegardé sur notre serveur");
+        Toast.show("L'url de votre agenda a bien été sauvegardé sur notre serveur");
         return dispatch(updateUrlIcsSuccess(urlIcs));
       })
       .catch((response) => {
@@ -108,7 +108,7 @@ export function synchroniserCalendar() {
     get('/api/calendar')
       .then((response) => response.json())
       .then((response) => {
-        Toast.show("Votre calendrier a été synchronisé.");
+        Toast.show("Votre agenda a été synchronisé.");
         if (response) {
           setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
         }
@@ -133,7 +133,6 @@ export function synchroniserCalendar() {
 
 export function setLastSynchro() {
   return dispatch => {
-    console.log('setLastSynchro');
     getLocalStorage(LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR)
       .then((dateLastSynchro) => {
         return dispatch({

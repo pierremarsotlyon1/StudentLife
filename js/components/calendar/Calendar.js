@@ -68,8 +68,6 @@ class Calendar extends React.Component {
       }, () => {
         const newItems = {};
         Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
-
-        console.log(newItems);
         this.setState({
           items: newItems
         });

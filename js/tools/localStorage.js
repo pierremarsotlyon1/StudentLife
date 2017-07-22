@@ -79,11 +79,9 @@ export function deleteLocalStorage(key) {
 export function clearLocalStorage() {
   try {
     localStorage.clear();
-    console.log('clear');
     return true;
   }
   catch (e) {
-    console.log(e);
     return false;
   }
 }
