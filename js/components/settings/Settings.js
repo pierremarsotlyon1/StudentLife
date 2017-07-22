@@ -22,7 +22,7 @@ import {logout, isConnected} from '../../actions/auth';
 
 class Settings extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    title: 'Settings'
+    title: 'Paramètres'
   });
 
   constructor(props) {
@@ -57,6 +57,14 @@ class Settings extends React.Component {
 
   handlePersonalInformations = () => {
     this.props.navigation.navigate("PersonalInformations");
+  };
+
+  handleProblemeTechnique = () => {
+    this.props.navigation.navigate("ProblemeTechnique");
+  };
+
+  handleSuggestion = () => {
+    this.props.navigation.navigate("Suggestion");
   };
 
   render() {
@@ -102,6 +110,35 @@ class Settings extends React.Component {
             </Left>
             <Body>
             <Text>Déconnexion</Text>
+            </Body>
+            <Right/>
+          </ListItem>
+          <Separator bordered>
+            <Text>L'application</Text>
+          </Separator>
+          <ListItem
+            icon
+            button
+            onPress={() => this.handleProblemeTechnique()}
+          >
+            <Left>
+              <Icon name="md-hammer"/>
+            </Left>
+            <Body>
+            <Text>Problème technique</Text>
+            </Body>
+            <Right/>
+          </ListItem>
+          <ListItem
+            icon
+            button
+            onPress={() => this.handleSuggestion()}
+          >
+            <Left>
+              <Icon name="md-chatboxes"/>
+            </Left>
+            <Body>
+            <Text>Une suggestion ?</Text>
             </Body>
             <Right/>
           </ListItem>

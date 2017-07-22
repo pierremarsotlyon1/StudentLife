@@ -17,6 +17,8 @@ import CalendarCamera from '../components/calendar/CalendarCamera';
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
 import InformationUrlCalendar from '../components/calendar/InformationUrlCalendar';
 import InformationUrlSemestre from '../components/semestre/InformationUrlSemestre';
+import Suggestion from '../components/settings/Suggestion';
+import ProblemeTechnique from '../components/settings/ProblemeTechnique';
 
 const TabNavigatorAccount = TabNavigator({
   BonPlans: {
@@ -82,6 +84,12 @@ const TabNavigatorAccount = TabNavigator({
       PersonalInformations: {
         screen: PersonalInformations
       },
+      ProblemeTechnique: {
+        screen: ProblemeTechnique,
+      },
+      Suggestion: {
+        screen: Suggestion,
+      }
     }, {
       initialRouteName: 'Settings',
       navigationOptions: {
