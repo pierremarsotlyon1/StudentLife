@@ -15,10 +15,11 @@ import {
   Title,
   List,
   ListItem,
-  Separator
+  Separator,
+  Spinner
 } from 'native-base';
 
-import {refreshEvents, loadEvents} from '../../actions/calendar';
+import {synchroniserCalendar} from '../../actions/calendar';
 
 class CalendarSettings extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -29,19 +30,59 @@ class CalendarSettings extends React.Component {
     super(props);
   }
 
-  refreshCalendar = () => {
-    this.props.dispatch(refreshEvents());
-  };
-
   getUrlCalendar = () => {
     this.props.navigation.navigate("CalendarCamera");
   };
 
-  downloadCalendar = () => {
-    this.props.dispatch(loadEvents());
+  handleSynchroniserCalendar = () => {
+    this.props.dispatch(synchroniserCalendar());
   };
 
   render() {
+    const {synchronisation} = this.props;
+
+    let rightSynchronisation;
+    if (synchronisation) {
+      rightSynchronisation = <Right>
+        <Spinner color='blue'/>
+      </Right>;
+    }
+
+    let listItemSychro;
+    if (synchronisation) {
+      listItemSychro = <ListItem
+        icon
+        button
+      >
+        <Left>
+          <Icon name="md-sync"/>
+        </Left>
+        <Body>
+        <Text>
+          Synchroniser l'agenda
+        </Text>
+        </Body>
+        {rightSynchronisation}
+      </ListItem>;
+    }
+    else {
+      listItemSychro = <ListItem
+        icon
+        button
+        onPress={() => this.handleSynchroniserCalendar()}
+      >
+        <Left>
+          <Icon name="md-sync"/>
+        </Left>
+        <Body>
+        <Text>
+          Synchroniser l'agenda
+        </Text>
+        </Body>
+        {rightSynchronisation}
+      </ListItem>;
+    }
+
     return (
       <Container>
         <Content>
@@ -61,46 +102,17 @@ class CalendarSettings extends React.Component {
             </Body>
             <Right/>
           </ListItem>
-          <ListItem
-            icon
-            button
-            onPress={() => this.refreshCalendar()}
-          >
-            <Left>
-              <Icon name="md-cloud-upload"/>
-            </Left>
-            <Body>
-            <Text>
-              Mettre à jour sur le serveur
-            </Text>
-            <Text note>
-              A faire en cas de changement d'emploi du temps
-            </Text>
-            </Body>
-            <Right/>
-          </ListItem>
-          <ListItem
-            icon
-            button
-            onPress={() => this.downloadCalendar()}
-          >
-            <Left>
-              <Icon name="md-cloud-download"/>
-            </Left>
-            <Body>
-            <Text>
-              Mettre à jour sur le téléphone
-            </Text>
-            <Text note>
-              Pour récupérer votre agenda à partir du serveur
-            </Text>
-            </Body>
-            <Right/>
-          </ListItem>
+          {listItemSychro}
         </Content>
       </Container>
     )
   }
 }
 
-export default connect()(CalendarSettings);
+function mapStateToProps(state) {
+  return {
+    synchronisation: state.calendar.synchronisation,
+  };
+}
+
+export default connect(mapStateToProps)(CalendarSettings);

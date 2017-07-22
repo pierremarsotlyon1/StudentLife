@@ -11,8 +11,7 @@ export const UPDATE_URL_ICS_ERROR = 'UPDATE_URL_ICS_ERROR';
 export const LOAD_EVENTS_SUCCESS = 'LOAD_EVENTS_SUCCESS';
 export const LOAD_EVENTS_ERROR = 'LOAD_EVENTS_ERROR';
 
-export const REFRESH_EVENTS_SUCCESS = 'REFRESH_EVENTS_SUCCESS';
-export const REFRESH_EVENTS_ERROR = 'REFRESH_EVENTS_ERROR';
+export const SYNCHRONISATION_CALENDAR = 'SYNCHRONISATION_CALENDAR';
 
 export const LOCALSTORAGE_URL_ICS_CALENDAR = 'LOCALSTORAGE_URL_ICS_CALENDAR_LYON1_APP_TOMUSS';
 export const LOCALSTORAGE_EVENTS_CALENDAR = 'LOCALSTORAGE_EVENTS_CALENDAR';
@@ -72,62 +71,52 @@ export function loadEvents() {
   return dispatch => {
     getLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR)
       .then((events) => {
-        events = JSON.parse(events);
-        dispatch(loadEventsSuccess({
-          events: events,
-        }));
+        if (!events) {
+          return dispatch(synchroniserCalendar());
+        }
+        else {
+          events = JSON.parse(events);
+          return dispatch(loadEventsSuccess({
+            events: events,
+          }));
+        }
       })
       .catch(() => {
 
       });
-
-    get('/api/calendar/events')
-      .then((response) => response.json())
-      .then((response) => {
-        //Toast.show("Votre calendrier a été téléchargé.");
-        if (response) {
-          setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
-        }
-
-        return dispatch(loadEventsSuccess(response));
-      })
-      .catch((response) => {
-        if (response && response.error) {
-          Toast.show(response.error);
-        }
-
-        return dispatch(loadEventsError());
-      })
   };
 }
 
-function refreshEventsSuccess() {
-  return {
-    type: REFRESH_EVENTS_SUCCESS,
-  };
-}
-
-function refreshEventsError() {
-  return {
-    type: REFRESH_EVENTS_ERROR,
-  };
-}
-
-export function refreshEvents() {
+export function synchroniserCalendar() {
   return dispatch => {
-    get('/api/calendar/refresh')
-      .then(() => {
-        Toast.show("Votre calendrier va être rafraichit sur notre serveur, merci d'attendre 2 minutes avant de " +
-          "télécharger votre calendrier.");
-        return dispatch(refreshEventsSuccess());
-      })
-      .catch((response) => {
-        response = response.json();
-        if (response && response.error) {
-          Toast.show(response.error);
-        }
+    dispatch({
+      type: SYNCHRONISATION_CALENDAR,
+    });
 
-        return dispatch(refreshEventsError());
-      })
+    setTimeout(() => {
+      get('/api/calendar')
+        .then((response) => response.json())
+        .then((response) => {
+          Toast.show("Votre calendrier a été synchronisé.");
+          if (response) {
+            setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
+          }
+
+          dispatch({
+            type: SYNCHRONISATION_CALENDAR,
+          });
+          return dispatch(loadEventsSuccess(response));
+        })
+        .catch((response) => {
+          if (response && response.error) {
+            Toast.show(response.error);
+          }
+
+          dispatch({
+            type: SYNCHRONISATION_CALENDAR,
+          });
+          return dispatch(loadEventsError());
+        });
+    }, 2000);
   };
 }

@@ -6,15 +6,23 @@ import {
   LOAD_EVENTS_SUCCESS,
   UPDATE_URL_ICS_ERROR,
   UPDATE_URL_ICS_SUCCESS,
+  SYNCHRONISATION_CALENDAR,
 } from '../actions/calendar';
 
 const initialState = {
   events: [],
   urlIcs: '',
+  synchronisation: false,
 };
 
 export default function calendar(state = initialState, action = {}){
   switch(action.type){
+    case SYNCHRONISATION_CALENDAR:
+      return {
+        ...state,
+        synchronisation: !state.synchronisation,
+      };
+
     case LOAD_EVENTS_SUCCESS:
       if(!action.events){
         return {

@@ -15,6 +15,7 @@ import CalendarSettings from '../components/calendar/CalendarSettings';
 import CalendarCamera from '../components/calendar/CalendarCamera';
 
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
+import InformationUrlCalendar from '../components/calendar/InformationUrlCalendar';
 
 const TabNavigatorAccount = TabNavigator({
   BonPlans: {
@@ -43,6 +44,9 @@ const TabNavigatorAccount = TabNavigator({
       },
       CalendarCamera: {
         screen: CalendarCamera,
+      },
+      InformationUrlCalendar: {
+        screen: InformationUrlCalendar,
       }
     }, {
       initialRouteName: 'Calendar',
