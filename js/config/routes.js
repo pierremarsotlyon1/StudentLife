@@ -16,6 +16,7 @@ import CalendarCamera from '../components/calendar/CalendarCamera';
 
 import {StackNavigator, TabNavigator, DrawerNavigator} from "react-navigation";
 import InformationUrlCalendar from '../components/calendar/InformationUrlCalendar';
+import InformationUrlSemestre from '../components/semestre/InformationUrlSemestre';
 
 const TabNavigatorAccount = TabNavigator({
   BonPlans: {
@@ -23,22 +24,35 @@ const TabNavigatorAccount = TabNavigator({
   },
   SemestreListTab: {
     screen: StackNavigator({
-      SemestreList: {screen: SemestreList},
-      AddSemestre: {screen: AddSemestre},
-      Semestre: {screen: Semestre},
-      UpdateSemestre: {screen: UpdateSemestre},
+      SemestreList: {
+        screen: SemestreList
+      },
+      AddSemestre: {
+        screen: AddSemestre
+      },
+      Semestre: {
+        screen: Semestre
+      },
+      UpdateSemestre: {
+        screen: UpdateSemestre
+      },
+      InformationUrlSemestre: {
+        screen: InformationUrlSemestre,
+      }
     }, {
       initialRouteName: 'SemestreList',
-      navigationOptions : {
+      navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-clipboard" />
+          <Icon name="md-clipboard"/>
         )
       }
     })
   },
   CalendarTab: {
     screen: StackNavigator({
-      Calendar: {screen: Calendar},
+      Calendar: {
+        screen: Calendar
+      },
       CalendarSettings: {
         screen: CalendarSettings,
       },
@@ -50,23 +64,29 @@ const TabNavigatorAccount = TabNavigator({
       }
     }, {
       initialRouteName: 'Calendar',
-      navigationOptions : {
+      navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-calendar" />
+          <Icon name="md-calendar"/>
         ),
       }
     })
   },
   Settings: {
     screen: StackNavigator({
-      Settings: {screen: Settings},
-      ChangePassword: {screen: ChangePassword},
-      PersonalInformations: {screen: PersonalInformations},
+      Settings: {
+        screen: Settings
+      },
+      ChangePassword: {
+        screen: ChangePassword
+      },
+      PersonalInformations: {
+        screen: PersonalInformations
+      },
     }, {
       initialRouteName: 'Settings',
-      navigationOptions : {
+      navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-settings" />
+          <Icon name="md-settings"/>
         ),
       }
     })

@@ -10,6 +10,7 @@ import Margin from '../../styles/Margin';
 import TextStyles from '../../styles/Text';
 
 import {login, setToken} from '../../actions/auth';
+import {setLastSynchro} from '../../actions/calendar';
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,6 +26,10 @@ class Login extends React.Component {
       email: '',
       password: '',
     };
+  }
+
+  componentDidMount(){
+    this.props.dispatch(setLastSynchro());
   }
 
   componentWillReceiveProps(nextProps){

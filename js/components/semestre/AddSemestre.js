@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import { Container, Content, Form, Item, Input, Label, Button, Text, CheckBox, Body, ListItem } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Button, Text, CheckBox, Body, ListItem, Icon } from 'native-base';
 import Margin from '../../styles/Margin';
 import Background from '../../styles/Background';
 
@@ -53,6 +53,10 @@ class AddSemestre extends React.Component {
     this.props.dispatch(addSemestre(this.state.nom, this.state.url, this.state.courant));
   };
 
+  handleInformationUrl = () => {
+    this.props.navigation.navigate("InformationUrlSemestre");
+  };
+
   render(){
     const {url, nom, courant} = this.state;
 
@@ -60,18 +64,23 @@ class AddSemestre extends React.Component {
       <Container style={Background.white}>
         <Content>
           <Form>
-            <Item floatingLabel>
-              <Label>Nom</Label>
+            <Item>
               <Input
                 onChangeText={this.handleNom}
                 value={nom}
+                placeholder='Nom'
               />
             </Item>
-            <Item floatingLabel>
-              <Label>Url</Label>
+            <Item>
               <Input
                 onChangeText={this.handleUrl}
                 value={url}
+                placeholder='Url'
+              />
+              <Icon
+                active
+                name='md-information-circle'
+                onPress={() => this.handleInformationUrl()}
               />
             </Item>
             <ListItem>

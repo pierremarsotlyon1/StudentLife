@@ -7,16 +7,25 @@ import {
   UPDATE_URL_ICS_ERROR,
   UPDATE_URL_ICS_SUCCESS,
   SYNCHRONISATION_CALENDAR,
+  LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR
 } from '../actions/calendar';
 
 const initialState = {
   events: [],
   urlIcs: '',
   synchronisation: false,
+  dateLastSynchro: '',
 };
 
 export default function calendar(state = initialState, action = {}){
   switch(action.type){
+    case LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR:
+      console.log('LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR : ', action);
+      return {
+        ...state,
+        dateLastSynchro: action.dateLastSynchro,
+      };
+
     case SYNCHRONISATION_CALENDAR:
       return {
         ...state,

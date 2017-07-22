@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import CountdownCircle from 'react-native-countdown-circle'
 import {
   Container,
   Content,
@@ -18,6 +19,7 @@ import {
   Separator,
   Spinner
 } from 'native-base';
+import moment from 'moment';
 
 import {synchroniserCalendar} from '../../actions/calendar';
 
@@ -39,7 +41,26 @@ class CalendarSettings extends React.Component {
   };
 
   render() {
-    const {synchronisation} = this.props;
+    const {synchronisation, dateLastSynchro} = this.props;
+
+    //on calcul le nombre de seconde de diff entre maintenant et la dernière synchro
+    let countDownCircle;
+    if(dateLastSynchro){
+      const duration = moment.duration(moment().diff(moment(dateLastSynchro)));
+      const seconds = duration.asSeconds();
+      let diffSeconds = (5 * 60) - seconds;
+      if(diffSeconds > 0) {
+        diffSeconds = Number.parseInt(diffSeconds);
+        countDownCircle = <CountdownCircle
+          seconds={diffSeconds}
+          radius={20}
+          borderWidth={2}
+          color="#ff003f"
+          textStyle={{ fontSize: 20 }}
+          onTimeElapsed={() => this.forceUpdate()}
+        />
+      }
+    }
 
     let rightSynchronisation;
     if (synchronisation) {
@@ -65,7 +86,25 @@ class CalendarSettings extends React.Component {
         {rightSynchronisation}
       </ListItem>;
     }
-    else {
+    else if(countDownCircle) {
+      listItemSychro = <ListItem
+        icon
+        button
+      >
+        <Left>
+          <Icon name="md-sync"/>
+        </Left>
+        <Body>
+        <Text>
+          Synchroniser l'agenda
+        </Text>
+        </Body>
+        <Right>
+          {countDownCircle}
+        </Right>
+      </ListItem>;
+    }
+    else{
       listItemSychro = <ListItem
         icon
         button
@@ -95,7 +134,7 @@ class CalendarSettings extends React.Component {
             onPress={() => this.getUrlCalendar()}
           >
             <Left>
-              <Icon name="md-key"/>
+              <Icon name="md-link"/>
             </Left>
             <Body>
             <Text>Récupérer l'URL</Text>
@@ -112,6 +151,7 @@ class CalendarSettings extends React.Component {
 function mapStateToProps(state) {
   return {
     synchronisation: state.calendar.synchronisation,
+    dateLastSynchro: state.calendar.dateLastSynchro,
   };
 }
 

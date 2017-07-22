@@ -3,9 +3,9 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
-import {Container, Content, Text, Button, Icon} from 'native-base';
+import {Container, Content, Button, Icon} from 'native-base';
 import { Agenda } from 'react-native-calendars';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import moment from 'moment';
 import {LocaleConfig} from 'react-native-calendars';
 
@@ -43,7 +43,7 @@ class Calendar extends React.Component {
     this.props.dispatch(loadEvents());
   }
 
-  loadItems = (day) => {
+  loadItems = () => {
     setTimeout(() => {
       const {events} = this.props;
 
@@ -69,12 +69,11 @@ class Calendar extends React.Component {
         const newItems = {};
         Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
 
+        console.log(newItems);
         this.setState({
           items: newItems
         });
       });
-
-
     }, 1000);
   };
 

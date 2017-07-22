@@ -4,6 +4,7 @@
 import Toast from 'react-native-simple-toast';
 import {get, put, post} from '../tools/Api';
 import {setLocalStorage, getLocalStorage} from '../tools/localStorage';
+import moment from 'moment';
 
 export const UPDATE_URL_ICS_SUCCESS = 'UPDATE_URL_ICS_SUCCESS';
 export const UPDATE_URL_ICS_ERROR = 'UPDATE_URL_ICS_ERROR';
@@ -15,6 +16,7 @@ export const SYNCHRONISATION_CALENDAR = 'SYNCHRONISATION_CALENDAR';
 
 export const LOCALSTORAGE_URL_ICS_CALENDAR = 'LOCALSTORAGE_URL_ICS_CALENDAR_LYON1_APP_TOMUSS';
 export const LOCALSTORAGE_EVENTS_CALENDAR = 'LOCALSTORAGE_EVENTS_CALENDAR';
+export const LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR = 'LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR';
 
 function updateUrlIcsSuccess(urlIcs) {
   return {
@@ -93,30 +95,54 @@ export function synchroniserCalendar() {
       type: SYNCHRONISATION_CALENDAR,
     });
 
-    setTimeout(() => {
-      get('/api/calendar')
-        .then((response) => response.json())
-        .then((response) => {
-          Toast.show("Votre calendrier a été synchronisé.");
-          if (response) {
-            setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
-          }
+    //On enregistre la dernière date de synchro
+    const dateLastSynchro = moment().format();
+    setLocalStorage(LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR, dateLastSynchro);
 
-          dispatch({
-            type: SYNCHRONISATION_CALENDAR,
-          });
-          return dispatch(loadEventsSuccess(response));
-        })
-        .catch((response) => {
-          if (response && response.error) {
-            Toast.show(response.error);
-          }
+    //On dispatch la date
+    dispatch({
+      type: LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR,
+      dateLastSynchro: dateLastSynchro,
+    });
 
-          dispatch({
-            type: SYNCHRONISATION_CALENDAR,
-          });
-          return dispatch(loadEventsError());
+    get('/api/calendar')
+      .then((response) => response.json())
+      .then((response) => {
+        Toast.show("Votre calendrier a été synchronisé.");
+        if (response) {
+          setLocalStorage(LOCALSTORAGE_EVENTS_CALENDAR, JSON.stringify(response.events));
+        }
+
+        dispatch({
+          type: SYNCHRONISATION_CALENDAR,
         });
-    }, 2000);
+        return dispatch(loadEventsSuccess(response));
+      })
+      .catch((response) => {
+        if (response && response.error) {
+          Toast.show(response.error);
+        }
+
+        dispatch({
+          type: SYNCHRONISATION_CALENDAR,
+        });
+        return dispatch(loadEventsError());
+      });
+  };
+}
+
+export function setLastSynchro() {
+  return dispatch => {
+    console.log('setLastSynchro');
+    getLocalStorage(LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR)
+      .then((dateLastSynchro) => {
+        return dispatch({
+          type: LOCALSTORAGE_LAST_SYNCHRO_TIMER_CALENDAR,
+          dateLastSynchro: dateLastSynchro,
+        });
+      })
+      .catch(() => {
+        return false;
+      });
   };
 }

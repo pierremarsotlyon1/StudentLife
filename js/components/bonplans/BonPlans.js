@@ -20,6 +20,7 @@ import {
   Button,
 } from 'native-base';
 import Margin from '../../styles/Margin';
+import TextStyle from '../../styles/Text';
 
 import {loadBonPlans, loadMoreBonPlans} from '../../actions/bonplans';
 
@@ -42,8 +43,8 @@ class BonPlans extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < 10){
+  componentWillReceiveProps(nextProps) {
+    if (this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < 10) {
       this.setState({
         afficherBtnLoadMore: false,
       });
@@ -69,48 +70,59 @@ class BonPlans extends React.Component {
     const {afficherBtnLoadMore} = this.state;
     const bonPlansLocal = [];
 
-    for (const bonPlan of bonPlans) {
-      if (!bonPlan._source || !bonPlan._id) {
-        continue;
+    if (bonPlans.length > 0) {
+      for (const bonPlan of bonPlans) {
+        if (!bonPlan._source || !bonPlan._id) {
+          continue;
+        }
+
+        let codePromo, reduction;
+
+        if (bonPlan._source.code_promo && bonPlan._source.code_promo.length > 0) {
+          codePromo = <Text>
+            Code promo : {bonPlan._source.code_promo}
+          </Text>
+        }
+
+        if (bonPlan._source.reduction) {
+          reduction = <Right>
+            <Badge success>
+              <Text>-{bonPlan._source.reduction}%</Text>
+            </Badge>
+          </Right>
+        }
+
+        bonPlansLocal.push(
+          <Card key={bonPlan._id}>
+            <CardItem header>
+              <Text>
+                {bonPlan._source.title}
+              </Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+              <Text>
+                {bonPlan._source.description}
+              </Text>
+              {codePromo}
+              </Body>
+            </CardItem>
+            <CardItem footer>
+              <Text>Du {bonPlan._source.date_debut} au {bonPlan._source.date_fin}</Text>
+              {reduction}
+            </CardItem>
+          </Card>
+        );
       }
-
-      let codePromo, reduction;
-
-      if (bonPlan._source.code_promo && bonPlan._source.code_promo.length > 0) {
-        codePromo = <Text>
-          Code promo : {bonPlan._source.code_promo}
-        </Text>
-      }
-
-      if (bonPlan._source.reduction) {
-        reduction = <Right>
-          <Badge success>
-            <Text>-{bonPlan._source.reduction}%</Text>
-          </Badge>
-        </Right>
-      }
-
+    }
+    else {
       bonPlansLocal.push(
-        <Card key={bonPlan._id}>
-          <CardItem header>
-            <Text>
-              {bonPlan._source.title}
-            </Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-            <Text>
-              {bonPlan._source.description}
-            </Text>
-            {codePromo}
-            </Body>
-          </CardItem>
-          <CardItem footer>
-            <Text>Du {bonPlan._source.date_debut} au {bonPlan._source.date_fin}</Text>
-            {reduction}
-          </CardItem>
-        </Card>
-      );
+        <Text
+          style={Object.assign({}, TextStyle.center, Margin.mt15)}
+        >
+          Aucun bon plan pour le moment <Icon name="md-sad"/>
+        </Text>
+      )
     }
 
     if (bonPlansLocal.length > 9 && afficherBtnLoadMore) {
