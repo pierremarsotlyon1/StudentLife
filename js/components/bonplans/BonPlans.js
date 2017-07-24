@@ -25,14 +25,9 @@ import TextStyle from '../../styles/Text';
 import {loadBonPlans, loadMoreBonPlans} from '../../actions/bonplans';
 
 class BonPlans extends React.Component {
-  static navigationOptions = {
-    title: 'Bon plans',
-    tabBarIcon: ({tintColor}) => (
-      <Icon
-        name="md-thumbs-up"
-      />
-    ),
-  };
+  static navigationOptions = () => ({
+    title: 'Bons plans'
+  });
 
   constructor(props) {
     super(props);
@@ -140,11 +135,6 @@ class BonPlans extends React.Component {
 
     return (
       <Container>
-        <Header>
-          <Body>
-          <Title>Bons plans</Title>
-          </Body>
-        </Header>
         <Content>
           {
             loading ?

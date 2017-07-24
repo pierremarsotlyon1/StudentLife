@@ -22,7 +22,20 @@ import ProblemeTechnique from '../components/settings/ProblemeTechnique';
 
 const TabNavigatorAccount = TabNavigator({
   BonPlans: {
-    screen: BonPlans,
+    screen: StackNavigator({
+      BonsPlans: {
+        screen: BonPlans
+      }
+    }, {
+      initialRouteName: 'BonsPlans',
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Icon
+            name="md-thumbs-up"
+          />
+        )
+      }
+    }),
   },
   SemestreListTab: {
     screen: StackNavigator({
