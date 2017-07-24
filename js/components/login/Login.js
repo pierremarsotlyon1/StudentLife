@@ -90,6 +90,7 @@ class Login extends React.Component {
             </Button>
             <Button
               transparent
+              full
               onPress={() => this.redirectRegister()}
             >
               <Text

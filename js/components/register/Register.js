@@ -134,6 +134,7 @@ class Register extends React.Component {
             </Button>
             <Button
               transparent
+              full
               onPress={this.redirectLogin}
             >
               <Text
