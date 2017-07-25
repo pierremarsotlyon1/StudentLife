@@ -22,7 +22,9 @@ import {
 import Margin from '../../styles/Margin';
 import TextStyle from '../../styles/Text';
 
-import {loadBonPlans, loadMoreBonPlans} from '../../actions/bonplans';
+import {loadBonPlans, loadMoreBonPlans, loadRecentBonPlans} from '../../actions/bonplans';
+
+const nbBonPlans = 2;
 
 class BonPlans extends React.Component {
   static navigationOptions = () => ({
@@ -39,7 +41,7 @@ class BonPlans extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < 10) {
+    if (this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < nbBonPlans) {
       this.setState({
         afficherBtnLoadMore: false,
       });
@@ -47,17 +49,21 @@ class BonPlans extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.bonPlans.length === 0) {
-      this.props.dispatch(loadBonPlans(this.state.offset));
-    }
+    this.props.dispatch(loadBonPlans(this.state.offset));
   }
 
   handleLoadMore = () => {
     this.setState({
-      offset: this.state.offset + 10,
+      offset: this.state.offset + nbBonPlans,
     }, () => {
       this.props.dispatch(loadMoreBonPlans(this.state.offset));
     });
+  };
+
+  handleLoadRecentBonPlans = (e) => {
+    if (e && e.nativeEvent && e.nativeEvent.contentOffset && e.nativeEvent.contentOffset.y < 0) {
+      this.props.dispatch(loadRecentBonPlans());
+    }
   };
 
   render() {
@@ -120,7 +126,7 @@ class BonPlans extends React.Component {
       )
     }
 
-    if (bonPlansLocal.length > 9 && afficherBtnLoadMore) {
+    if (bonPlansLocal.length > (nbBonPlans - 1) && afficherBtnLoadMore) {
       bonPlansLocal.push(
         <Button
           block
@@ -135,7 +141,7 @@ class BonPlans extends React.Component {
 
     return (
       <Container>
-        <Content>
+        <Content onScroll={this.handleLoadRecentBonPlans}>
           {
             loading ?
               <Spinner color='blue'/>

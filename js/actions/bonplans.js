@@ -10,6 +10,9 @@ export const LOAD_BON_PLANS_ERROR = 'LOAD_BON_PLANS_ERROR';
 export const LOAD_MORE_BON_PLANS_SUCCESS = 'LOAD_MORE_BON_PLANS_SUCCESS';
 export const LOAD_MORE_BON_PLANS_ERROR = 'LOAD_MORE_BON_PLANS_ERROR';
 
+export const LOAD_RECENT_BON_PLANS_SUCCESS = 'LOAD_RECENT_BON_PLANS_SUCCESS';
+export const LOAD_RECENT_BON_PLANS_ERROR = 'LOAD_RECENT_BON_PLANS_ERROR';
+
 function loadBonPlansSuccess(payload) {
   return {
     type: LOAD_BON_PLANS_SUCCESS,
@@ -80,4 +83,39 @@ export function loadMoreBonPlans(offset) {
         return dispatch(loadMoreBonPlansError());
       });
   }
+}
+
+function loadRecentBonPlansSuccess(payload){
+  return {
+    type: LOAD_RECENT_BON_PLANS_SUCCESS,
+    bonPlans: payload,
+  };
+}
+
+function loadRecentBonPlansError(){
+  return {
+    type: LOAD_RECENT_BON_PLANS_ERROR,
+  };
+}
+
+export function loadRecentBonPlans(){
+  return (dispatch, getState) => {
+    if(getState().bonPlans.bonPlans.length === 0){
+      return dispatch(loadRecentBonPlansError());
+    }
+
+    const bonPlans = getState().bonPlans.bonPlans[0];
+
+    get('/api/bonplans/recent/' + bonPlans._source.date_debut)
+      .then((response) => response.json())
+      .then((response) => {
+        return dispatch(loadRecentBonPlansSuccess(response));
+      })
+      .catch((response) => {
+        if (response && response.error) {
+          Toast.show(response.error);
+        }
+        return dispatch(loadMoreBonPlansError());
+      });
+  };
 }
