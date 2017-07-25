@@ -23,6 +23,12 @@ class ChangePassword extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.lastChangePassword !== nextProps.lastChangePassword){
+      this.props.navigation.goBack();
+    }
+  }
+
   handleNewPassword = (newPassword) => {
     this.setState({
       newPassword: newPassword,
@@ -76,4 +82,10 @@ class ChangePassword extends React.Component {
   }
 }
 
-export default connect()(ChangePassword);
+function mapStateToProps(state){
+  return {
+    lastChangePassword: state.auth.lastChangePassword,
+  };
+}
+
+export default connect(mapStateToProps)(ChangePassword);

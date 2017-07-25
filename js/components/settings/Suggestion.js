@@ -27,7 +27,14 @@ class Suggestion extends React.Component {
   };
 
   handleSubmitSuggestion = () => {
-    addSuggestion(this.state.message);
+    const that = this;
+    addSuggestion(this.state.message)
+      .then(() => {
+        that.props.navigation.goBack();
+      })
+      .catch(() => {
+
+      });
   };
 
   render(){

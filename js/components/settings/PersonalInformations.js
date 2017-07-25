@@ -16,7 +16,7 @@ import {
   Form, Item, Input, Label
 } from 'native-base';
 
-import {changeInformations} from '../../actions/etudiant';
+import {changeInformations, loadPersonnalInformations} from '../../actions/etudiant';
 
 import Margin from '../../styles/Margin';
 
@@ -29,9 +29,20 @@ class PersonalInformations extends React.Component {
     super(props);
 
     this.state = {
-      nom: '',
-      prenom: '',
+      nom: this.props.nom,
+      prenom: this.props.prenom,
     };
+  }
+
+  componentDidMount(){
+    this.props.dispatch(loadPersonnalInformations());
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      nom: nextProps.nom,
+      prenom: nextProps.prenom,
+    });
   }
 
   handleNom = (nom) => {
@@ -48,10 +59,12 @@ class PersonalInformations extends React.Component {
 
   handleSubmit = () => {
     this.props.dispatch(changeInformations(this.state.nom, this.state.prenom));
+    this.props.navigation.goBack();
   };
 
   render() {
     const {nom, prenom} = this.state;
+    const {loadingPersonalInformations} = this.props;
 
     return (
       <Container>
@@ -87,7 +100,11 @@ class PersonalInformations extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    nom: state.etudiant.nom,
+    prenom: state.etudiant.prenom,
+    loadingPersonalInformations: state.etudiant.loadingPersonalInformations,
+  };
 }
 
 export default connect(mapStateToProps)(PersonalInformations);

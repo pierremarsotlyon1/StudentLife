@@ -13,6 +13,9 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const SET_TOKEN = 'SET_TOKEN';
 export const LOGOUT = 'LOGOUT';
 
+export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS';
+export const CHANGE_PASSWORD_ERROR = 'CHANGE_PASSWORD_ERROR';
+
 export function setFcmToken(fcmToken) {
   return new Promise((resolve, reject) => {
     if (!fcmToken || fcmToken.length === 0) {
@@ -212,11 +215,15 @@ export function logout() {
 }
 
 function changePasswordSuccess() {
-  return {};
+  return {
+    type: CHANGE_PASSWORD_SUCCESS
+  };
 }
 
 function changePasswordError() {
-  return {};
+  return {
+    type: CHANGE_PASSWORD_ERROR
+  };
 }
 
 export function changePassword(newPassword, confirmNewPassword) {
@@ -242,12 +249,15 @@ export function changePassword(newPassword, confirmNewPassword) {
     })
       .then(() => {
         Toast.show('Votre mot de passe a bien été changé.');
+        return dispatch(changePasswordSuccess());
       })
       .catch((response) => response.json())
       .then((response) => {
         if (response && response.error) {
           Toast.show(response.error);
         }
+
+        return dispatch(changePasswordError());
       });
   };
 }

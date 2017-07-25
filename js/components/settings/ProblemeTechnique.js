@@ -27,7 +27,14 @@ class ProblemeTechnique extends React.Component {
   };
 
   handleSubmitProblemeTechnique = () => {
-    addProblemeTechnique(this.state.message);
+    const that = this;
+    addProblemeTechnique(this.state.message)
+      .then(() => {
+        that.props.navigation.goBack();
+      })
+      .catch(() => {
+
+      });
   };
 
   render(){

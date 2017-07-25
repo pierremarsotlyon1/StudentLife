@@ -6,6 +6,7 @@ import auth from "./auth";
 import semestre from "./semestre";
 import bonPlans from './bonplans';
 import calendar from './calendar';
+import etudiant from './etudiant';
 
 export default function getRootReducer(navReducer) {
   return combineReducers({
@@ -14,5 +15,6 @@ export default function getRootReducer(navReducer) {
     semestre: semestre,
     bonPlans: bonPlans,
     calendar: calendar,
+    etudiant: etudiant,
   });
 }
