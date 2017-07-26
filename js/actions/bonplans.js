@@ -38,9 +38,11 @@ export function loadBonPlans(offset) {
     })
       .then((response) => response.json())
       .then((response) => {
+      console.log(response);
         return dispatch(loadBonPlansSuccess(response));
       })
       .catch((response) => {
+        console.log(response);
         if (response && response.error) {
           Toast.show(response.error);
         }

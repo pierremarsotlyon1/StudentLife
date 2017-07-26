@@ -2,6 +2,7 @@
  * Created by pierremarsot on 12/07/2017.
  */
 import React from 'react';
+import {Image, Linking} from 'react-native';
 import {connect} from 'react-redux';
 import {
   Container,
@@ -18,9 +19,16 @@ import {
   Right,
   Spinner,
   Button,
+  Row,
+  Col,
+  Grid,
 } from 'native-base';
 import Margin from '../../styles/Margin';
 import TextStyle from '../../styles/Text';
+import moment from 'moment';
+import 'moment/locale/fr';
+
+moment.locale('fr');
 
 import {loadBonPlans, loadMoreBonPlans, loadRecentBonPlans} from '../../actions/bonplans';
 
@@ -61,9 +69,23 @@ class BonPlans extends React.Component {
   };
 
   handleLoadRecentBonPlans = (e) => {
-    /*if (e && e.nativeEvent && e.nativeEvent.contentOffset && e.nativeEvent.contentOffset.y < 0) {
-      this.props.dispatch(loadRecentBonPlans());
-    }*/
+    if (e && e.nativeEvent && e.nativeEvent.contentOffset && e.nativeEvent.contentOffset.y < 0) {
+      this.setState({
+        offset: 0,
+      }, () => {
+        this.props.dispatch(loadBonPlans(this.state.offset));
+      });
+    }
+  };
+
+  handleOpenUrl = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    }).catch(err => console.error('An error occurred', err));
   };
 
   render() {
@@ -77,40 +99,89 @@ class BonPlans extends React.Component {
           continue;
         }
 
-        let codePromo, reduction;
+        let codePromo, reduction, dateFin, url;
 
         if (bonPlan._source.code_promo && bonPlan._source.code_promo.length > 0) {
-          codePromo = <Text>
-            Code promo : {bonPlan._source.code_promo}
-          </Text>
+          codePromo =
+            <Text>
+              Code promo : {bonPlan._source.code_promo}
+            </Text>
         }
 
         if (bonPlan._source.reduction) {
-          reduction = <Right>
-            <Badge success>
-              <Text>-{bonPlan._source.reduction}%</Text>
-            </Badge>
-          </Right>
+          reduction =
+            <Col>
+              <Right>
+                <Badge success>
+                  <Text>
+                    -{bonPlan._source.reduction}%
+                  </Text>
+                </Badge>
+              </Right>
+            </Col>
+        }
+
+        if (bonPlan._source.date_fin) {
+          dateFin =
+            <Col>
+              <Text>Jusqu'au {moment(bonPlan._source.date_fin).format('DD MMMM')}</Text>
+            </Col>
+        }
+
+        if (bonPlan._source.url) {
+          url =
+            <Col>
+              <Button
+                primary
+                small
+                full
+                onPress={() => this.handleOpenUrl(bonPlan._source.url)}
+              >
+                <Text>
+                  En savoir plus
+                </Text>
+              </Button>
+            </Col>
         }
 
         bonPlansLocal.push(
           <Card key={bonPlan._id}>
             <CardItem header>
+              <Image
+                style={{width: 34, height: 34, marginRight: 20}}
+                source={{uri: bonPlan._source.logo_entreprise}}
+              />
               <Text>
-                {bonPlan._source.title}
+                {bonPlan._source.nom_entreprise}
               </Text>
             </CardItem>
             <CardItem>
               <Body>
-              <Text>
+              <Text
+                style={{fontSize: 18}}
+              >
+                {bonPlan._source.title}
+              </Text>
+              <Text
+                style={{fontSize: 11}}
+              >
                 {bonPlan._source.description}
               </Text>
               {codePromo}
               </Body>
             </CardItem>
             <CardItem footer>
-              <Text>Du {bonPlan._source.date_debut} au {bonPlan._source.date_fin}</Text>
-              {reduction}
+              <Grid>
+                <Row>
+                  {dateFin}
+                  {reduction}
+                </Row>
+                <Row
+                  style={Margin.mt15}
+                >
+                  {url}
+                </Row>
+              </Grid>
             </CardItem>
           </Card>
         );
@@ -120,6 +191,7 @@ class BonPlans extends React.Component {
       bonPlansLocal.push(
         <Text
           style={Object.assign({}, TextStyle.center, Margin.mt15)}
+          key="empty_bons_plan_txt"
         >
           Aucun bon plan pour le moment <Icon name="md-sad"/>
         </Text>
