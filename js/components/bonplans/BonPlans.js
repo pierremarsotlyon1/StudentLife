@@ -24,7 +24,7 @@ import TextStyle from '../../styles/Text';
 
 import {loadBonPlans, loadMoreBonPlans, loadRecentBonPlans} from '../../actions/bonplans';
 
-const nbBonPlans = 2;
+const nbBonPlans = 10;
 
 class BonPlans extends React.Component {
   static navigationOptions = () => ({
@@ -61,9 +61,9 @@ class BonPlans extends React.Component {
   };
 
   handleLoadRecentBonPlans = (e) => {
-    if (e && e.nativeEvent && e.nativeEvent.contentOffset && e.nativeEvent.contentOffset.y < 0) {
+    /*if (e && e.nativeEvent && e.nativeEvent.contentOffset && e.nativeEvent.contentOffset.y < 0) {
       this.props.dispatch(loadRecentBonPlans());
-    }
+    }*/
   };
 
   render() {
