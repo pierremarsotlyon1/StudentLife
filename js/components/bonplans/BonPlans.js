@@ -99,7 +99,7 @@ class BonPlans extends React.Component {
           continue;
         }
 
-        let codePromo, reduction, dateFin, url;
+        let codePromo, reduction, dateFin, url, image;
 
         if (bonPlan._source.code_promo && bonPlan._source.code_promo.length > 0) {
           codePromo =
@@ -144,13 +144,18 @@ class BonPlans extends React.Component {
             </Col>
         }
 
+        if (bonPlan._source.logo_entreprise){
+          image =
+            <Image
+              style={{width: 34, height: 34, marginRight: 20}}
+              source={{uri: bonPlan._source.logo_entreprise}}
+            />;
+        }
+
         bonPlansLocal.push(
           <Card key={bonPlan._id}>
             <CardItem header>
-              <Image
-                style={{width: 34, height: 34, marginRight: 20}}
-                source={{uri: bonPlan._source.logo_entreprise}}
-              />
+              {image}
               <Text>
                 {bonPlan._source.nom_entreprise}
               </Text>
