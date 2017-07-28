@@ -1,5 +1,5 @@
 export default Styles = {
   body: {
-    marginTop: 25,
+    marginTop: 45,
   }
 };

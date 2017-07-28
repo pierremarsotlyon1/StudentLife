@@ -31,7 +31,7 @@ const TabNavigatorAccount = TabNavigator({
       navigationOptions: {
         tabBarIcon: () => (
           <Icon
-            name="md-thumbs-up"
+            name="thumbs-up"
           />
         )
       }
@@ -58,7 +58,7 @@ const TabNavigatorAccount = TabNavigator({
       initialRouteName: 'SemestreList',
       navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-clipboard"/>
+          <Icon name="clipboard"/>
         )
       }
     })
@@ -81,7 +81,7 @@ const TabNavigatorAccount = TabNavigator({
       initialRouteName: 'Calendar',
       navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-calendar"/>
+          <Icon name="calendar"/>
         ),
       }
     })
@@ -107,7 +107,7 @@ const TabNavigatorAccount = TabNavigator({
       initialRouteName: 'Settings',
       navigationOptions: {
         tabBarIcon: () => (
-          <Icon name="md-settings"/>
+          <Icon name="settings"/>
         ),
       }
     })
@@ -129,15 +129,3 @@ const Navi = DrawerNavigator({
 });
 
 export default Navi;
-
-/*
- StackNavigator(Routes.SemestresTab, {
- navigationOptions: {
- title: ({ state }) => {
- if (state.params) {
- return `${state.params.title}`;
- }
- }
- }
- })
- */

@@ -9,7 +9,6 @@ import {
   Card,
   CardItem,
   Text,
-  Body,
   Button,
   List,
   ListItem,
@@ -22,6 +21,8 @@ import {
 import {loadSemestres} from '../../actions/semestres';
 
 import Background from '../../styles/Background';
+import TextStyle from '../../styles/Text';
+import Margin from '../../styles/Margin';
 import moment from 'moment';
 
 class SemestreList extends React.Component {
@@ -31,7 +32,7 @@ class SemestreList extends React.Component {
       transparent
       onPress={() => navigation.navigate("AddSemestre")}
     >
-      <Icon name='md-add'/>
+      <Icon name='add'/>
     </Button>
   });
 
@@ -85,7 +86,9 @@ class SemestreList extends React.Component {
 
     if (semestresLocales.length === 0) {
       semestresLocales.push(
-        <Text key="no_semestres">Vous n'avez encore enregistré aucun semestre</Text>
+        <Text key="no_semestres" style={Object.assign({}, TextStyle.center, Margin.mt15)}>
+          Vous n'avez encore enregistré aucun semestre
+        </Text>
       )
     }
 

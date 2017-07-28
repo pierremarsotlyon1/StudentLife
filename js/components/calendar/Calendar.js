@@ -19,6 +19,8 @@ import {Agenda, Calendar} from 'react-native-calendars';
 import {View, StyleSheet, Text} from 'react-native';
 import moment from 'moment';
 import {LocaleConfig} from 'react-native-calendars';
+import TextStyle from '../../styles/Text';
+import Margin from '../../styles/Margin';
 
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -38,7 +40,7 @@ class CalendarCours extends React.Component {
       transparent
       onPress={() => navigation.navigate("CalendarSettings")}
     >
-      <Icon name='md-settings'/>
+      <Icon name='settings'/>
     </Button>
   });
 
@@ -55,7 +57,6 @@ class CalendarCours extends React.Component {
   }
 
   onDayPress = (day) => {
-    console.log(day.dateString);
     this.setState({
       selected: day.dateString,
     });
@@ -65,16 +66,27 @@ class CalendarCours extends React.Component {
     let eventsShow = [];
     let markedDates = {};
     let eventsToSort = [];
+    let haveSelectedMarkedDate = false;
+
+    //On parcourt tous les events
     for(let i = 0; i < this.props.events.length; i++){
+      //On recup l'event
       const event = this.props.events[i];
+
+      //On format la date
       const dateDebutFormat = moment(event.date_debut).format('YYYY-MM-DD');
+
+      //On regarde si on est sur la date que l'utilisateur a selectionné
+      //Si c'est le cas, on ajoute l'event au tableau des events à afficher
       if(this.state.selected === dateDebutFormat) {
         eventsToSort.push(event);
       }
 
+      //On regarde si on doit marquer la date dans le calendrier
       if(!markedDates[dateDebutFormat]){
         if(dateDebutFormat === this.state.selected){
           markedDates[dateDebutFormat] = {marked: true, selected: true};
+          haveSelectedMarkedDate = true;
         }
         else{
           markedDates[dateDebutFormat] = {marked: true};
@@ -82,13 +94,35 @@ class CalendarCours extends React.Component {
       }
     }
 
+    //On regarde si on a selectionné un jour, si ce n'est pas le cas, c'est qu'on a aucun event pour cette date
+    if(!haveSelectedMarkedDate){
+      markedDates[this.state.selected] = {marked: false, selected: true};
+    }
+
     if(eventsToSort.length > 0){
+      //On sort les events en fonction de la date de début
       eventsToSort.sort((a, b) => {
+        if(!a.date_debut || !b.date_debut){
+          return 1;
+        }
+
         return moment(a.date_debut).isAfter(moment(b.date_debut)) ? 1 : -1;
       });
 
+      //On crée le tableau du dom
       for(let i = 0; i < eventsToSort.length; i++){
         const event = eventsToSort[i];
+
+        let description, location;
+
+        if(event.description){
+          description = <Text>{event.description}</Text>;
+        }
+
+        if(event.location){
+          location = <Text>{event.location}</Text>;
+        }
+
         eventsShow.push(
           <Card key={i}>
             <CardItem header>
@@ -96,7 +130,8 @@ class CalendarCours extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-              <Text>{event.description}</Text>
+              {description}
+              {location}
               </Body>
             </CardItem>
           </Card>
@@ -106,7 +141,11 @@ class CalendarCours extends React.Component {
 
     if(eventsShow.length === 0){
       eventsShow.push(
-        <View key="empty_events" style={styles.emptyDate}><Text>Aucune information à cette date</Text></View>
+        <View key="empty_events">
+          <Text style={Object.assign({}, TextStyle.center, Margin.mt15)}>
+            Aucune information à cette date
+          </Text>
+        </View>
       );
     }
 
@@ -167,8 +206,6 @@ const styles = StyleSheet.create({
   },
   emptyDate: {
     height: 15,
-    flex: 1,
-    paddingTop: 30
   }
 });
 

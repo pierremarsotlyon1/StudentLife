@@ -64,6 +64,7 @@ class Login extends React.Component {
     return (
       <Container style={Styles.body}>
         <Content>
+          <Text style={Object.assign({}, TextStyles.h1, TextStyles.center, TextStyles.weight500)}>Se connecter</Text>
           <Form>
             <Item floatingLabel>
               <Label>Email</Label>
