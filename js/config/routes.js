@@ -10,6 +10,7 @@ import ChangePassword from '../components/settings/ChangePassword';
 import PersonalInformations from '../components/settings/PersonalInformations';
 import {Icon} from 'native-base';
 import BonPlans from '../components/bonplans/BonPlans';
+import Jobs from '../components/jobs/Jobs';
 import Calendar from '../components/calendar/Calendar';
 import CalendarSettings from '../components/calendar/CalendarSettings';
 import CalendarCamera from '../components/calendar/CalendarCamera';
@@ -28,6 +29,22 @@ const TabNavigatorAccount = TabNavigator({
       }
     }, {
       initialRouteName: 'BonsPlans',
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Icon
+            name="thumbs-up"
+          />
+        )
+      }
+    }),
+  },
+  Jobs: {
+    screen: StackNavigator({
+      Jobs: {
+        screen: Jobs
+      }
+    }, {
+      initialRouteName: 'Jobs',
       navigationOptions: {
         tabBarIcon: () => (
           <Icon

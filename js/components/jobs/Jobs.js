@@ -30,13 +30,13 @@ import 'moment/locale/fr';
 
 moment.locale('fr');
 
-import {loadBonPlans, loadMoreBonPlans, loadRecentBonPlans} from '../../actions/bonplans';
+import {loadJobs, loadMoreJobs} from '../../actions/jobs';
 
-const nbBonPlans = 10;
+const nbJobs = 10;
 
-class BonPlans extends React.Component {
+class Jobs extends React.Component {
   static navigationOptions = () => ({
-    title: 'Annonces'
+    title: 'Offres d\'emploi'
   });
 
   constructor(props) {
@@ -49,7 +49,7 @@ class BonPlans extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.bonPlans.length !== nextProps.bonPlans.length && (nextProps.bonPlans.length - this.props.bonPlans.length) < nbBonPlans) {
+    if (this.props.jobs.length !== nextProps.jobs.length && (nextProps.jobs.length - this.props.jobs.length) < nbJobs) {
       this.setState({
         afficherBtnLoadMore: false,
       });
@@ -57,14 +57,14 @@ class BonPlans extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadBonPlans(this.state.offset));
+    this.props.dispatch(loadJobs(this.state.offset));
   }
 
   handleLoadMore = () => {
     this.setState({
-      offset: this.state.offset + nbBonPlans,
+      offset: this.state.offset + nbJobs,
     }, () => {
-      this.props.dispatch(loadMoreBonPlans(this.state.offset));
+      this.props.dispatch(loadMoreJobs(this.state.offset));
     });
   };
 
@@ -73,7 +73,7 @@ class BonPlans extends React.Component {
       this.setState({
         offset: 0,
       }, () => {
-        this.props.dispatch(loadBonPlans(this.state.offset));
+        this.props.dispatch(loadJobs(this.state.offset));
       });
     }
   };
@@ -89,75 +89,50 @@ class BonPlans extends React.Component {
   };
 
   render() {
-    const {bonPlans, loading} = this.props;
+    const {jobs, loading} = this.props;
     const {afficherBtnLoadMore} = this.state;
-    const bonPlansLocal = [];
+    const jobsLocal = [];
 
-    if (bonPlans.length > 0) {
-      for (const bonPlan of bonPlans) {
-        if (!bonPlan._source || !bonPlan._id) {
+    if (jobs.length > 0) {
+      for (const job of jobs) {
+        if (!job._source || !job._id) {
           continue;
         }
 
-        let codePromo, reduction, dateFin, url, image;
+        let image, remuneration, typeContrat;
 
-        if (bonPlan._source.code_promo && bonPlan._source.code_promo.length > 0) {
-          codePromo =
-            <Text>
-              Code promo : {bonPlan._source.code_promo}
-            </Text>
-        }
-
-        if (bonPlan._source.reduction) {
-          reduction =
-            <Col>
-              <Right>
-                <Badge success>
-                  <Text>
-                    -{bonPlan._source.reduction}%
-                  </Text>
-                </Badge>
-              </Right>
-            </Col>
-        }
-
-        if (bonPlan._source.date_fin) {
-          dateFin =
-            <Col>
-              <Text>Jusqu'au {moment(bonPlan._source.date_fin).format('DD MMMM')}</Text>
-            </Col>
-        }
-
-        if (bonPlan._source.url) {
-          url =
-            <Col>
-              <Button
-                primary
-                small
-                full
-                onPress={() => this.handleOpenUrl(bonPlan._source.url)}
-              >
-                <Text>
-                  En savoir plus
-                </Text>
-              </Button>
-            </Col>
-        }
-
-        if (bonPlan._source.logo_entreprise){
+        if (job._source.logo_entreprise){
           image =
             <Image
               style={{width: 34, height: 34, marginRight: 20}}
-              source={{uri: bonPlan._source.logo_entreprise}}
+              source={{uri: job._source.logo_entreprise}}
             />;
         }
 
-        bonPlansLocal.push(
-          <Card key={bonPlan._id}>
+        if(job._source.remuneration){
+          remuneration =
+            <Col>
+              <Text>
+                {job._source.remuneration} euros
+              </Text>
+            </Col>
+        }
+
+        if(job._source.type_contrat){
+          typeContrat =
+            <Col>
+              <Text>
+                {job._source.type_contrat}
+              </Text>
+            </Col>
+        }
+
+        jobsLocal.push(
+          <Card key={job._id}>
             <CardItem header>
               {image}
               <Text>
-                {bonPlan._source.nom_entreprise}
+                {job._source.nom_entreprise}
               </Text>
             </CardItem>
             <CardItem>
@@ -165,26 +140,25 @@ class BonPlans extends React.Component {
               <Text
                 style={{fontSize: 18}}
               >
-                {bonPlan._source.title}
+                {job._source.titre}
               </Text>
               <Text
                 style={{fontSize: 11}}
               >
-                {bonPlan._source.description}
+                {job._source.description}
               </Text>
-              {codePromo}
+              <Text
+                style={{fontSize: 11}}
+              >
+                {job._source.profil}
+              </Text>
               </Body>
             </CardItem>
             <CardItem footer>
               <Grid>
                 <Row>
-                  {dateFin}
-                  {reduction}
-                </Row>
-                <Row
-                  style={Margin.mt15}
-                >
-                  {url}
+                  {remuneration}
+                  {typeContrat}
                 </Row>
               </Grid>
             </CardItem>
@@ -193,18 +167,18 @@ class BonPlans extends React.Component {
       }
     }
     else {
-      bonPlansLocal.push(
+      jobsLocal.push(
         <Text
           style={Object.assign({}, TextStyle.center, Margin.mt15)}
-          key="empty_bons_plan_txt"
+          key="empty_jobs_txt"
         >
-          Aucune annonce pour le moment <Icon name="sad"/>
+          Aucune offre d'emploi pour le moment <Icon name="sad"/>
         </Text>
       )
     }
 
-    if (bonPlansLocal.length > (nbBonPlans - 1) && afficherBtnLoadMore) {
-      bonPlansLocal.push(
+    if (jobsLocal.length > (nbJobs - 1) && afficherBtnLoadMore) {
+      jobsLocal.push(
         <Button
           block
           onPress={() => this.handleLoadMore()}
@@ -223,7 +197,7 @@ class BonPlans extends React.Component {
             loading ?
               <Spinner color='blue'/>
               :
-              bonPlansLocal
+              jobsLocal
           }
         </Content>
       </Container>
@@ -233,9 +207,8 @@ class BonPlans extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    bonPlans: state.bonPlans.bonPlans,
-    loading: state.bonPlans.loading,
+    jobs: state.jobs.jobs,
   };
 }
 
-export default connect(mapStateToProps)(BonPlans);
+export default connect(mapStateToProps)(Jobs);

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00BBEE325E2D48A598A9B8D5 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CACE17A9C624546A31301B3 /* libRCTCamera.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -365,6 +366,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5EA129E9D9FEE8F70AB3B4C6 /* libPods-StudentLifeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StudentLifeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6801AFD10C07439DA37B208F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		6E3320931F2B8C8000DF1C2C /* StudentLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = StudentLife.entitlements; path = StudentLife/StudentLife.entitlements; sourceTree = "<group>"; };
 		6E66251B1F176571008B5165 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		6E77F0381F13D933008CD338 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7398492139EC4AD4B9BB2939 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
@@ -531,6 +533,7 @@
 		13B07FAE1A68108700A75B9A /* StudentLife */ = {
 			isa = PBXGroup;
 			children = (
+				6E3320931F2B8C8000DF1C2C /* StudentLife.entitlements */,
 				6E77F0381F13D933008CD338 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -829,8 +832,12 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = Y45GYT3Y9R;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1532,6 +1539,9 @@
 			baseConfigurationReference = 1478E40BC849B14508DCD630 /* Pods-StudentLife.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StudentLife/StudentLife.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = Y45GYT3Y9R;
@@ -1551,6 +1561,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.StudentLife.Lyon;
 				PRODUCT_NAME = StudentLife;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1560,6 +1572,9 @@
 			baseConfigurationReference = 4384C38558195F62D664907E /* Pods-StudentLife.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StudentLife/StudentLife.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y45GYT3Y9R;
 				HEADER_SEARCH_PATHS = (
@@ -1578,6 +1593,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.StudentLife.Lyon;
 				PRODUCT_NAME = StudentLife;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

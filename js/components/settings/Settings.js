@@ -80,7 +80,7 @@ class Settings extends React.Component {
             onPress={() => this.handlePersonalInformations()}
           >
             <Left>
-              <Icon name="md-information-circle"/>
+              <Icon name="information-circle"/>
             </Left>
             <Body>
             <Text>Mes informations</Text>
@@ -93,7 +93,7 @@ class Settings extends React.Component {
             onPress={() => this.handleChangePassword()}
           >
             <Left>
-              <Icon name="md-key"/>
+              <Icon name="key"/>
             </Left>
             <Body>
             <Text>Changer mon mot de passe</Text>
@@ -106,7 +106,7 @@ class Settings extends React.Component {
             onPress={() => this.handleLogout()}
           >
             <Left>
-              <Icon name="md-log-out"/>
+              <Icon name="log-out"/>
             </Left>
             <Body>
             <Text>Déconnexion</Text>
@@ -122,7 +122,7 @@ class Settings extends React.Component {
             onPress={() => this.handleProblemeTechnique()}
           >
             <Left>
-              <Icon name="md-hammer"/>
+              <Icon name="hammer"/>
             </Left>
             <Body>
             <Text>Problème technique</Text>
@@ -135,7 +135,7 @@ class Settings extends React.Component {
             onPress={() => this.handleSuggestion()}
           >
             <Left>
-              <Icon name="md-chatboxes"/>
+              <Icon name="chatboxes"/>
             </Left>
             <Body>
             <Text>Une suggestion ?</Text>
