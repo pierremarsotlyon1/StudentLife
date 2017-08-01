@@ -88,6 +88,12 @@ class Jobs extends React.Component {
     }).catch(err => console.error('An error occurred', err));
   };
 
+  handleDetail = (job) => {
+    this.props.navigation.navigate("DetailJob", {
+      job: job,
+    });
+  };
+
   render() {
     const {jobs, loading} = this.props;
     const {afficherBtnLoadMore} = this.state;
@@ -101,7 +107,7 @@ class Jobs extends React.Component {
 
         let image, remuneration, typeContrat;
 
-        if (job._source.logo_entreprise){
+        if (job._source.logo_entreprise) {
           image =
             <Image
               style={{width: 34, height: 34, marginRight: 20}}
@@ -109,7 +115,7 @@ class Jobs extends React.Component {
             />;
         }
 
-        if(job._source.remuneration){
+        if (job._source.remuneration) {
           remuneration =
             <Col>
               <Text>
@@ -118,7 +124,7 @@ class Jobs extends React.Component {
             </Col>
         }
 
-        if(job._source.type_contrat){
+        if (job._source.type_contrat) {
           typeContrat =
             <Col>
               <Text>
@@ -129,32 +135,28 @@ class Jobs extends React.Component {
 
         jobsLocal.push(
           <Card key={job._id}>
-            <CardItem header>
-              {image}
-              <Text>
-                {job._source.nom_entreprise}
-              </Text>
-            </CardItem>
-            <CardItem>
+            {
+              image || job._source.nom_entreprise
+                ?
+                <CardItem header button onPress={() => this.handleDetail(job)}>
+                  {image}
+                  <Text>
+                    {job._source.nom_entreprise}
+                  </Text>
+                </CardItem>
+                :
+                undefined
+            }
+            <CardItem button onPress={() => this.handleDetail(job)}>
               <Body>
               <Text
                 style={{fontSize: 18}}
               >
                 {job._source.titre}
               </Text>
-              <Text
-                style={{fontSize: 11}}
-              >
-                {job._source.description}
-              </Text>
-              <Text
-                style={{fontSize: 11}}
-              >
-                {job._source.profil}
-              </Text>
               </Body>
             </CardItem>
-            <CardItem footer>
+            <CardItem footer button onPress={() => this.handleDetail(job)}>
               <Grid>
                 <Row>
                   {remuneration}

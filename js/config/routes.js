@@ -11,6 +11,7 @@ import PersonalInformations from '../components/settings/PersonalInformations';
 import {Icon} from 'native-base';
 import BonPlans from '../components/bonplans/BonPlans';
 import Jobs from '../components/jobs/Jobs';
+import DetailJob from '../components/jobs/DetailJob';
 import Calendar from '../components/calendar/Calendar';
 import CalendarSettings from '../components/calendar/CalendarSettings';
 import CalendarCamera from '../components/calendar/CalendarCamera';
@@ -42,13 +43,16 @@ const TabNavigatorAccount = TabNavigator({
     screen: StackNavigator({
       Jobs: {
         screen: Jobs
+      },
+      DetailJob: {
+        screen: DetailJob,
       }
     }, {
       initialRouteName: 'Jobs',
       navigationOptions: {
         tabBarIcon: () => (
           <Icon
-            name="thumbs-up"
+            name="navigate"
           />
         )
       }

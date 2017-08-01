@@ -144,7 +144,7 @@ class BonPlans extends React.Component {
             </Col>
         }
 
-        if (bonPlan._source.logo_entreprise){
+        if (bonPlan._source.logo_entreprise) {
           image =
             <Image
               style={{width: 34, height: 34, marginRight: 20}}
@@ -154,12 +154,18 @@ class BonPlans extends React.Component {
 
         bonPlansLocal.push(
           <Card key={bonPlan._id}>
-            <CardItem header>
-              {image}
-              <Text>
-                {bonPlan._source.nom_entreprise}
-              </Text>
-            </CardItem>
+            {
+              image || bonPlan._source.nom_entreprise
+                ?
+                <CardItem header>
+                  {image}
+                  <Text>
+                    {bonPlan._source.nom_entreprise}
+                  </Text>
+                </CardItem>
+                :
+                undefined
+            }
             <CardItem>
               <Body>
               <Text
